@@ -1,4 +1,7 @@
-/* Customização de scroll e transições */
+/* ============================================================
+   CROSS ARISE SYSTEM — Estilos customizados
+   ============================================================ */
+
 body {
     background-color: #020617;
     -webkit-tap-highlight-color: transparent;
@@ -8,24 +11,90 @@ body {
 .tab-content {
     animation: fadeIn 0.3s ease-in-out;
 }
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Customização de estados dos botões do app */
+/* Botão de nav ativo */
 .nav-btn.active {
-    color: #06b6d4 !important; /* Cyan-400 */
+    color: #06b6d4 !important;
     font-weight: 800;
 }
-
 .nav-btn.active span:first-child {
     transform: scale(1.15);
     filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.6));
 }
 
-/* Filtro preto e branco para avatares de mortos */
+/* Avatar de personagem morto */
 .avatar-morto {
     filter: grayscale(100%) brightness(40%);
 }
+
+/* ============================================================
+   FEATURE 7: LOADING OVERLAY — Gate Portal
+   ============================================================ */
+.gate-portal {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #06b6d4;
+    border-right-color: #8b5cf6;
+    animation: spin-gate 0.9s linear infinite;
+    box-shadow:
+        0 0 20px rgba(6, 182, 212, 0.5),
+        0 0 40px rgba(139, 92, 246, 0.2),
+        inset 0 0 20px rgba(139, 92, 246, 0.15);
+}
+.gate-portal::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-bottom-color: #a855f7;
+    border-left-color: #06b6d4;
+    animation: spin-gate 0.6s linear infinite reverse;
+}
+@keyframes spin-gate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   FEATURE 8: TÍTULOS — Badge mísitco dourado
+   ============================================================ */
+.titulo-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, rgba(120,80,0,0.5), rgba(80,50,0,0.4));
+    border: 1px solid #b45309;
+    color: #fde68a;
+    text-shadow: 0 0 6px rgba(251,191,36,0.6);
+    box-shadow: 0 0 8px rgba(251,191,36,0.2);
+}
+
+/* ============================================================
+   FEATURE 5: Rank S — brilho dourado pulsante na lista
+   ============================================================ */
+.rank-s-glow {
+    animation: rank-s-pulse 2s ease-in-out infinite;
+}
+@keyframes rank-s-pulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(251,191,36,0.4), 0 0 14px rgba(251,191,36,0.2); }
+    50%       { box-shadow: 0 0 12px rgba(251,191,36,0.8), 0 0 24px rgba(251,191,36,0.4); }
+}
+
+/* Scroll customizado para areas de log e listas */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
