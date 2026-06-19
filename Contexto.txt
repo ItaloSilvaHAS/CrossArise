@@ -1,1 +1,89 @@
-O Cross Arise System é uma plataforma web progressiva (PWA), responsiva e focada em dispositivos móveis, inspirada na interface de sistemas de Solo Leveling. Ela atuará como o núcleo operacional e o "motor" do seu RPG de WhatsApp. Para os jogadores, o site funciona como a própria "Janela do Sistema", permitindo que se recrutem de forma automatizada escolhendo nome, raça, classe, clã, senha e o personagem de anime/obra cuja aparência pretendem usar. Uma vez aceitos, eles ganham acesso a um Menu de Personagem dinâmico e protegido por senha, onde visualizam seu Rank (E até S), alinhamento de neutralidade, inventário de itens, árvore de poderes, status vital (Vivo/Morto) e uma interface interativa para distribuir pontos de atributos concedidos em tempo real. Publicamente, o site exibe uma Lista de Caçadores ativa e um Banco de Aparências em Uso, travando duplicatas de visuais e promovendo o ranking do servidor. Para o Administrador (Mestre), a plataforma oferece um Dashboard de Comando centralizado em tempo real, onde, com cliques rápidos, ele altera o estado vital dos players, promove ranks, concede pacotes de pontos para distribuição imediata e injeta novos itens ou habilidades diretamente nos inventários, eliminando completamente a necessidade de planilhas manuais ou fichas textuais fludando os grupos de jogo
+========================================
+CROSS ARISE SYSTEM — CONTEXTO DO PROJETO
+========================================
+
+O que é isso?
+--------------
+Cross Arise System é o painel de controle digital do meu RPG de WhatsApp, inspirado na interface de "Janela do Sistema" do universo de Solo Leveling. O site é uma PWA (Progressive Web App) responsiva, focada em mobile, que substitui completamente fichas manuais, planilhas e anotações de texto no grupo.
+
+O sistema funciona como o "motor" invisível do jogo: os jogadores acessam pelo celular como se fossem o próprio personagem interagindo com o Sistema, e eu (o Mestre) controlo tudo em tempo real por um painel de administração protegido por senha.
+
+O nome do RPG é CROSS ARISE. O tema é caçadores, rankings, masmorras e poderes — universo estilo Solo Leveling / manhwa de sistema.
+
+---
+
+Para os Jogadores
+------------------
+- Registro de personagem com nome, raça, classe, clã, obra de origem da aparência e senha pessoal
+- Upload de foto do personagem (salva comprimida diretamente no banco em Base64)
+- Login por nome + senha para acessar a Janela do Sistema pessoal
+- Visualização do Rank atual (E até S), status vital (Vivo/Morto), neutralidade (Neutro, Herói, Vilão, Caótico)
+- Distribuição de pontos de atributo em tempo real quando o Mestre concede pontos
+- Atributos: Força, Agilidade, Vitalidade, Inteligência e Sentido
+- Inventário de itens e lista de Habilidades/Poderes atualizados em tempo real
+- Lista pública de todos os Caçadores registrados no servidor com rank e aparência
+
+---
+
+Para o Mestre (eu)
+-------------------
+- Painel protegido por chave de administrador
+- Promover ou rebaixar o Rank de qualquer jogador (E, D, C, B, A, S)
+- Alternar status vital (Vivo ↔ Morto) de qualquer personagem
+- Alterar neutralidade (Neutro, Herói, Vilão, Caótico)
+- Conceder pacotes de pontos para distribuição de atributos (+5 por vez)
+- Editar diretamente os atributos base de cada caçador com botões + e −
+- Injetar novos itens no inventário de qualquer jogador
+- Injetar novos poderes/habilidades para qualquer jogador
+- Remover itens ou poderes individualmente com um clique
+- Excluir personagens permanentemente do banco
+- Tudo isso sem precisar de planilha, sem WhatsApp manual, em tempo real
+
+---
+
+Como o Banco de Dados Funciona (Supabase)
+------------------------------------------
+O sistema usa o Supabase como backend completo — banco de dados PostgreSQL hospedado na nuvem com sincronização em tempo real via WebSocket.
+
+Tabela principal: `cacadores`
+Colunas: id, nome, senha, raca, classe, clan, obra_origem, url_aparencia (Base64), rank, vivo, neutralidade, forca, agilidade, vitalidade, inteligencia, sentido, pontos_distribuir, inventario (array), poderes (array)
+
+A conexão está configurada diretamente no arquivo `app.js` com:
+- SUPABASE_URL: endpoint do projeto no Supabase
+- SUPABASE_KEY: chave anon pública (feita para ser usada no frontend)
+
+O Realtime está ativo via `supabase.channel()` — qualquer alteração feita pelo Mestre aparece instantaneamente no painel do jogador sem precisar recarregar a página.
+
+---
+
+Arquivos do Projeto
+--------------------
+- index.html  → Estrutura completa do site (abas, formulários, painéis)
+- app.js      → Toda a lógica: Supabase, autenticação, CRUD, Realtime
+- style.css   → Animações e estilos complementares ao Tailwind
+- server.js   → Servidor estático local para rodar no Replit (porta 5000)
+- Contexto.txt → Este arquivo
+
+---
+
+IMPORTANTE — NÃO ALTERAR
+--------------------------
+- Não mudar as credenciais do Supabase em app.js. O banco já está configurado e populado.
+- Não alterar a estrutura da tabela `cacadores` sem revisar todas as funções de insert/update no app.js.
+- Não trocar o nome das colunas do banco sem atualizar os mapeamentos no código.
+- O server.js é exclusivo para o ambiente Replit. Para deploy em Vercel/Netlify, não é necessário — basta subir index.html, app.js e style.css.
+- A chave SUPABASE_KEY é uma chave anon pública, é seguro ela estar visível no frontend.
+- O sistema de login de jogador NÃO usa Supabase Auth — usa nome + senha comparados diretamente na tabela. Isso é intencional para manter simplicidade no fluxo mobile do RPG.
+- A chave do Mestre (CHAVE_MESTRE_PADRAO) está em app.js. Se quiser trocar, mude só essa string.
+
+---
+
+Próximas Expansões Planejadas
+-------------------------------
+- Sistema de combate com rolagem de dados automatizada
+- Cálculo de dano baseado nos atributos
+- Listagem e gerenciamento de Masmorras
+- Sistema de experiência e level up automático
+- Aba "Sistemas" (já existe no menu) será o hub dessas mecânicas
+
+========================================
